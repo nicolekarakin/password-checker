@@ -11,12 +11,19 @@ public class PasswordCheckerStream {
         return pass.matches("\\S+");
     }
     public static boolean checkAll( String pass, int min){
+        char o='1';
+        char[] flag="0000".toCharArray();
         if(!checkHasWhiteChars(pass)) return false;
+        if(!checkLength(pass,min)) return false;
         List<Character> charsStart = pass.chars().mapToObj(c -> (char) c).collect(Collectors.toList());
-        List<Character> chars = charsStart.stream()
-                .filter(a -> Character.isUpperCase(a)||Character.isLowerCase(a)||Character.isDigit(a)||specialChars.contains(String.valueOf(a)))
-                .collect(Collectors.toList());
-        return !chars.isEmpty() && checkLength(pass,min);
+        charsStart.stream()
+                .forEach(a->{
+                    flag[0]=(Character.isUpperCase(a))?o:flag[0];
+                    flag[1]=(Character.isLowerCase(a))?o:flag[1];
+                    flag[2]=(Character.isDigit(a))?o:flag[2];
+                    flag[3]=(specialChars.contains(String.valueOf(a)))?o:flag[3];
+                });
+        return "1111".equals(new String(flag));
     }
     public static boolean checkUpperCase(String pass) {
         List<Character> charsStart = pass.chars().mapToObj(c -> (char) c).collect(Collectors.toList());
