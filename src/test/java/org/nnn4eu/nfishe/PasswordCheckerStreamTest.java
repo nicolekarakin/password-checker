@@ -2,6 +2,8 @@ package org.nnn4eu.nfishe;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class PasswordCheckerStreamStreamTest {
 
@@ -79,6 +81,18 @@ class PasswordCheckerStreamStreamTest {
         boolean expected=false;
         //then
         Assertions.assertEquals(expected,actual);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings={"absd7S.","HGFz5-","terw_dj8Z"})
+    void checkAll(String s){
+        Assertions.assertTrue(PasswordCheckerStream.checkAll(s,5));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings={"absd7s.","HGFz578","terw_djqZ","wuzrtw","aA7-"})
+    void checkAll_False(String s){
+        Assertions.assertFalse(PasswordCheckerStream.checkAll(s,5));
     }
 
 }
